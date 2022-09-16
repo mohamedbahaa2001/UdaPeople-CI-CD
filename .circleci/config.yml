@@ -84,7 +84,7 @@ jobs:
           name: front-end unit test
           command: |
              # Your code here
-             cd backend
+             cd frontend
              npm install
              npm test
                 
