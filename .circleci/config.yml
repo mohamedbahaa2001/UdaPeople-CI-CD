@@ -328,7 +328,7 @@ jobs:
     docker:
       - image: cimg/base
     steps:
-      - slack/ntify:
+      - slack/notify:
           event: pass
           channel: cicd-application
           template: success_tagged_deployment_1   
@@ -347,7 +347,8 @@ workflows:
       - scan-frontend:
           requires: [build-frontend]
       - notify_on_success:
-          - ""
+          requires: [build-frontend, build-backend, scan-backend, scan-frontend]
+
       # - deploy-infrastructure:
       #     requires: [test-frontend, test-backend, scan-frontend, scan-backend]
       #     filters:
