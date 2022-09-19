@@ -300,6 +300,8 @@ jobs:
       # - install_ansible
       - install_awscli
       - install_nodejs
+      - attach_workspace:
+          at: ~/
       - restore_cache:
           keys: [frontend-deps]
       - run:
@@ -312,18 +314,30 @@ jobs:
           name: Get backend url
           command: |
             # your code here
-            BACKEND_IP=$(aws ec2 describe-instances \
-            --query 'Reservations[*].Instances[*].PublicIpAddress' \
-            --filters "Name=tag:project, Values=backend-${CIRCLE_WORKFLOW_ID:0:7}" \
-            --output text)
-
-            echo "API_URL=http://${BACKEND_IP}:3030" >> frontend/.env
+            # BACKEND_IP=$(aws ec2 describe-instances \
+            # --query 'Reservations[*].Instances[*].PublicIpAddress' \
+            # --filters "Name=tag:project, Values=backend-${CIRCLE_WORKFLOW_ID:0:7}" \
+            # --output text)
+            # echo "API_URL=http://${BACKEND_IP}:3030" >> frontend/.env
+            # cat frontend/.env
+            
+            export BACKEND_IP=$( aws ec2 describe-instances --query 'Reservations[*].Instances[*].PublicIpAddress' --filters "Name=tag:Name, Values=backend-${CIRCLE_WORKFLOW_ID:0:7}" --output text)
+            export API_URL="http://${BACKEND_IP}:3030"
+            echo "API_URL = ${API_URL}"
+            echo API_URL="http://${BACKEND_IP}:3030" >> frontend/.env
             cat frontend/.env
+      - run: 
+          name: baking backend ip
+          command: |
+            cd frontend
+            npm i
+            npm run build
       - run:
           name: Deploy frontend objects
           command: |
             # your code here
             cd frontend
+            npm install
             npm run build
             aws s3 cp dist s3://udapeople-${CIRCLE_WORKFLOW_ID:0:7} --recursive
       # Here's where you will add some code to rollback on failure      
