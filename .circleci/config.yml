@@ -68,8 +68,8 @@ commands:
           when: on_fail
           command: |
             # Curl command here to see if there was a successful migration associated with the workflow id, store result in SUCCESS variable
-            SUCCESS = $(curl --insecure https://kvdb.io/MaGP6Xi8L6533u3645QfAG/migration_<< parameters.Workflow_ID >>)
-            if(( $SUCCESS==1 ))
+            SUCCESS=$(curl --insecure https://kvdb.io/MaGP6Xi8L6533u3645QfAG/migration_<< parameters.Workflow_ID >>)
+            if(( $SUCCESS==1 ));
             then
               cd ~/project/backend
               npm install
@@ -365,7 +365,7 @@ jobs:
           name: Deploy backend
           command: |
             # your code here
-            cd dist
+            cd backend/dist
             export TYPEORM_MIGRATIONS_DIR=./migrations
             export TYPEORM_ENTITIES=./modules/domain/**/*.entity{.ts,.js}
             export TYPEORM_MIGRATIONS=./migrations/*.ts
