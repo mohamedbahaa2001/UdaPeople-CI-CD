@@ -470,7 +470,7 @@ jobs:
             aws cloudformation deploy \
               --template-file .circleci/files/cloudfront.yml \
               --parameter-overrides WorkflowID="${CIRCLE_WORKFLOW_ID:0:7}" \
-              --stack-name InitialStack
+              --stack-name InitialStack01
       # Here's where you will add some code to rollback on failure  
       - destroy-environment
       - revert-migrations
@@ -494,8 +494,7 @@ jobs:
               echo Stack names: "${STACKS[@]}"
               
               export OldWorkflowID=$(curl --insecure https://kvdb.io/MaGP6Xi8L6533u3645QfAG/old_workflow_id)
-              echo OldWorkflowID: $OldWorkflowID
-              
+              echo OldWorkflowID: "${OldWorkflowID}"
               if [[ "${STACKS[@]}" =~ "${OldWorkflowID}" ]]
               then
                 aws s3 rm "s3:// udapeople-${OldWorkflowID}" --recursive
