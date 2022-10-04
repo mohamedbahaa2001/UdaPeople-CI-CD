@@ -214,7 +214,7 @@ jobs:
             --template-file .circleci/files/backend.yml \
             --stack-name "udapeople-backend-${CIRCLE_WORKFLOW_ID:0:7}" \
             --parameter-overrides ID="${CIRCLE_WORKFLOW_ID:0:7}"  \
-            --tags Name=udapeople
+            --tags project=udapeople
 
       - run:
           name: Ensure front-end infrastructure exist
@@ -223,14 +223,14 @@ jobs:
             --template-file .circleci/files/frontend.yml \
             --stack-name "udapeople-frontend-${CIRCLE_WORKFLOW_ID:0:7}" \
             --parameter-overrides ID="${CIRCLE_WORKFLOW_ID:0:7}"  \
-            --tags Name=udapeople
+            --tags project=udapeople
       - run:
           name: Add back-end ip to ansible inventory
           command: |
             # Your code here
             BACKEND_PUBLIC_IP=$(aws ec2 describe-instances \
             --query 'Reservations[*].Instances[*].PublicIpAddress' \
-            --filters "Name=tag:Name, Values=udapeople" \
+            --filters "Name=tag:project, Values=udapeople" \
             --output text)
             echo $BACKEND_PUBLIC_IP >> .circleci/ansible/inventory.txt
             cat .circleci/ansible/inventory.txt
@@ -327,7 +327,7 @@ jobs:
             
             export BACKEND_IP=$(aws ec2 describe-instances \
             --query 'Reservations[*].Instances[*].PublicIpAddress' \
-            --filters "Name=tag:Name, Values=udapeople" \
+            --filters "Name=tag:project, Values=udapeople" \
             --output text)
             export API_URL="http://${BACKEND_IP}:3030"
             echo "API_URL = ${API_URL}"
@@ -428,7 +428,7 @@ jobs:
             # your code here
             export BACKEND_IP=$(aws ec2 describe-instances \
             --query 'Reservations[*].Instances[*].PublicIpAddress' \
-            --filters "Name=tag:Name, Values=udapeople" \
+            --filters "Name=tag:project, Values=udapeople" \
             --output text)
             echo "$BACKEND_IP"
             export API_URL="http://${BACKEND_IP}:3030"
