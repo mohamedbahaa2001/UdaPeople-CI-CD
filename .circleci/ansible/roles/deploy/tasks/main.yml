@@ -28,6 +28,7 @@
     msg: "{{ execute_node.stdout_lines }}"
 
 - name: "configure pm2 to start service"
-  become: true
+  # become: true
   shell: |
-    env PATH=$PATH:/user/local/bin pm2 startup -u ubuntu --hp /home/ubuntu
+    sudo su -c "env PATH=$PATH:/user/local/bin pm2 startup -u ubuntu --hp /home/ubuntu"
+    pm2 save
