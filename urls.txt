@@ -1,3 +1,5 @@
 URL01: https://github.com/mohamedbahaa2001/UdaPeople-CI-CD
 
-URL02: https://duq3ii5y8irlx.cloudfront.net
+URL02: http://udapeople-99c00b0.s3-website-us-east-1.amazonaws.com
+
+cloudfront Link: https://duq3ii5y8irlx.cloudfront.net
