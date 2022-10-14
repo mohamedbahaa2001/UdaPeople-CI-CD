@@ -541,6 +541,7 @@ workflows:
             branches:
               only: [master]
 
+
       - configure-infrastructure:
           requires: [deploy-infrastructure]
       - run-migrations:
