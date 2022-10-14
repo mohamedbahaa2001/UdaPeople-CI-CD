@@ -504,7 +504,7 @@ jobs:
 
               echo Stack names: "${STACKS[@]}"
               
-              export OldWorkflowID=$(curl --insecure https://kvdb.io/${MaGP6Xi8L6533u3645QfAG}/old_workflow_id)
+              export OldWorkflowID=$(curl --insecure https://kvdb.io/MaGP6Xi8L6533u3645QfAG/old_workflow_id)
               echo OldWorkflowID: "${OldWorkflowID}"
               echo "Old Workflow ID: ${OldWorkflowID}"
               echo "Old Workflow ID: $OldWorkflowID"
@@ -533,9 +533,9 @@ workflows:
           requires: [build-frontend]
       - deploy-infrastructure:
           requires: [test-frontend, test-backend, scan-frontend, scan-backend]
-          # filters:
-          #   branches:
-          #     only: [master]
+          filters:
+            branches:
+              only: [master]
 
       - configure-infrastructure:
           requires: [deploy-infrastructure]
